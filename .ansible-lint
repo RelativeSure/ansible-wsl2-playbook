@@ -2,5 +2,5 @@ exclude_paths:
   - .cache/
   - _bootstrap/
   - .github/
-# use_default_rules: true
+use_default_rules: true
 offline: false
