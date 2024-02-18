@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": "github>KubeArchitect/renovate-runner:.github/renovate" 
+  "extends": ["local>KubeArchitect/renovate-runner:.github/renovate"]
 }
