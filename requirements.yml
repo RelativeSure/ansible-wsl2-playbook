@@ -1,0 +1,4 @@
+collections:
+  # - name: ./collections/community-general-8.3.0.tar.gz
+  #   type: file
+  - name: community.general
