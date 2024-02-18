@@ -1,0 +1,13 @@
+- name: Sync Debian-based Packages
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Patch Debian-based Packages
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+    only_upgrade: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+# - name: Patch Python and pip # TODO

@@ -1,0 +1,51 @@
+- name: WSL2 Ansible Playbook
+  hosts: wsl
+  vars_files:
+    - variables.yml
+  vars_prompt:
+    - name: only_patching
+      prompt: Should it only run patching tasks?
+      default: Falsy | convert_bool
+  pre_tasks:
+    - name: Check if playbook is run with root user
+      ansible.builtin.fail:
+        msg: "This playbook is running with '{{ lookup('ansible.builtin.env', 'USER') }}'. Run with non-root user"
+      when: lookup('ansible.builtin.env', 'USER') is root
+
+    - name: Gather Package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Gather Services facts
+      ansible.builtin.service_facts:
+
+  tasks:
+    - name: Include Patching Role
+      ansible.builtin.include_role:
+        name: "{{ ansible_facts['os_family'] | lower }}"
+        tasks_from: patching.yml
+      vars:
+        common_package_facts: ansible_facts.packages
+        common_service_facts: ansible_facts.services
+      tags:
+        - patching
+        - common
+      when: only_patching is Truthy | convert_bool
+
+    - name: Include Common Setup Role
+      ansible.builtin.include_role:
+        name: common
+      vars:
+        common_package_facts: ansible_facts.packages
+        common_service_facts: ansible_facts.services
+      tags:
+        - common
+
+    - name: Include Debian Setup Role
+      ansible.builtin.include_role:
+        name: debian
+      vars:
+        debian_package_facts: ansible_facts.packages
+        debian_service_facts: ansible_facts.services
+      tags:
+        - debian

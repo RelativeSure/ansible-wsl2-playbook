@@ -1,0 +1,11 @@
+- name: Sync RedHat-based Packages
+  ansible.builtin.dnf:
+    update_cache: true
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Patch RedHat-based Packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_only: true
+  when: ansible_facts['os_family'] == 'RedHat'
