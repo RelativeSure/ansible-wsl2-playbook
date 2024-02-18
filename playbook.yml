@@ -1,0 +1,13 @@
+- name: WSL2 Ansible Playbook
+  hosts: wsl
+  # vars_prompt:
+  #   - name: "Is this your normal user?"
+  #     prompt:
+  pre_tasks:
+    - name: Check if playbook is run with root user
+      ansible.builtin.fail:
+        msg: The system may not be provisioned according to the CMDB status.
+      when: "{{ lookup('ansible.builtin.env', 'USR'}}  != 'root'"
+
+    - name: Update packages
+      ansible.builtin.package:
