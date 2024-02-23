@@ -51,7 +51,7 @@ jobs:
 
       # Git Checkout
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
@@ -64,7 +64,7 @@ jobs:
 
         # You can override MegaLinter flavor used to have faster performances
         # More info at https://megalinter.io/flavors/
-        uses: oxsecurity/megalinter/flavors/documentation@v7
+        uses: oxsecurity/megalinter/flavors/documentation@190cd0dad6dc52b2de5b810e3b290c3d6bdcc0f2 # v7
 
         id: ml
 
@@ -100,7 +100,7 @@ jobs:
 
       # Upload MegaLinter artifacts
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: success() || failure()
         with:
           name: MegaLinter reports
@@ -139,7 +139,7 @@ jobs:
       # Create pull request if applicable
       # (for now works only on PR from same repository, not from forks)
       - name: Create Pull Request with applied fixes
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50 # v6
         id: cpr
         if: env.APPLY_FIXES_IF_PR == 'true'
         with:
@@ -161,7 +161,7 @@ jobs:
         run: sudo chown -Rc $UID .git/
 
       - name: Commit and push applied linter fixes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d # v5
         if: env.APPLY_FIXES_IF_COMMIT == 'true'
         with:
           branch: >-
